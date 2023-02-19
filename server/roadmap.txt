@@ -1,0 +1,79 @@
+######### OVERVIEW #########
+
+
+### SERVER
+
+    End points:
+        - issues
+            - create issue
+            - list issue
+            - list all issues
+            - update issue
+            - delete issue
+            {
+                - issue types (task, subtask, epic, purchases, ...etc)
+                - priority
+                - status
+                - title
+                - description
+                - comment
+                - attachment
+                - log
+                - created at
+                - modified at
+                - due date
+                - category
+                - type
+            }
+        - projects
+            - create project
+            - read project
+            - list all projects
+            - update project
+            - delete project
+            {
+                - title
+                - avatar url
+                - description
+                - assignee
+                - assigned to
+                - status
+                - created at
+                - modified at
+                - due date
+                - category
+                - type
+            }
+        - tasks / subtasks
+        - users
+            - create user
+            - list users
+            - list single user
+            - update user
+            - delete user
+        - audit log
+        - organization structure and each memeber's role/s
+        - auth
+        - change log
+        - roles
+        - assign role/task
+        - invitations
+        - account (settings/profile)
+       
+
+### FOLDERS ARCHITECTURE => MVC
+
+
+### DATABASE (SCHEMAS & MODELS)
+
+- user
+- issue
+- project
+- task
+- subtask
+
+
+* ROLES
+    - owner/CEO => can view all things employees have done, assign projects/tasks to them.
+    - project manager => can view his things, employees, and assign tasks to direct employees in the department
+    - employee => can only view his things.
