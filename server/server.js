@@ -1,15 +1,31 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors')
+require('dotenv').config();
 const app = express();
 
-const PORT = process.env.port || 5000
+// importing routes
+const projectRouter = require('./routes/project');
+const taskRouter = require('./routes/task');
+const userRouter = require('./routes/user');
+
+const PORT = process.env.port || 8080
+const DB_URI = process.env.DB_URI
+
+// db connection
+mongoose.connect(DB_URI).then(() => {
+    console.log('Connected to DB!')
+})
 
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-// routes
-app.get('/', (req, res) => {
-    res.send('Hello from the server!')
-})
+// mounting routes
+app.use('/project', projectRouter)
+app.use('/task', taskRouter)
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)

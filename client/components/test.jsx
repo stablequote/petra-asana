@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Navbar, NavLink, Flex, Text } from '@mantine/core';
+import {Link} from 'react-router-dom';
 
 function Demo() {
   return (
@@ -8,15 +9,23 @@ function Demo() {
         <Box>
             <NavLink
                 label="Summary"
+                component={Link}
+                to="/summary"
             />
             <NavLink
                 label="Projects"
+                component={Link}
+                to="/projects"
             />
             <NavLink
-                label="Issues"
+                label="Tasks"
+                component={Link}
+                to="/tasks"
             />
             <NavLink
                 label="Reports"
+                component={Link}
+                to="/reports"
             />
         </Box>
       </Navbar.Section>

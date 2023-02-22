@@ -1,0 +1,22 @@
+### THINGS TO DO
+
+- Layout
+    Header
+    Sidebar
+    Main
+
+- Routes
+
+- Pages
+    Summary
+    Projects
+    Tasks
+
+- Components
+    Timeline
+    Calender
+    Date Table
+    Modal
+    Comment
+    Chart
+    
