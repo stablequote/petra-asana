@@ -11,6 +11,7 @@
             - update issue
             - delete issue
             {
+                - id
                 - issue types (task, subtask, epic, purchases, ...etc)
                 - priority
                 - status
@@ -32,6 +33,7 @@
             - update project
             - delete project
             {
+                - id
                 - title
                 - avatar url
                 - description
@@ -51,6 +53,20 @@
             - list single user
             - update user
             - delete user
+            {
+                - id
+                - first name
+                - last name
+                - email
+                - password
+                - image
+                - role
+                - department
+                - createdAt
+                - modifiedAt
+                - tasks[...Task]
+                - projects[...Project]
+            }
         - audit log
         - organization structure and each memeber's role/s
         - auth
