@@ -46,12 +46,11 @@ const userSchema = Schema({
         timestamps: true
     },
     tasks: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId
     },
     projects: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
     }
-
 })
 
 const User = mongoose.model('User', userSchema)
