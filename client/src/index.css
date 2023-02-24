@@ -8,3 +8,19 @@ body {
 a{
   text-decoration: none;
 }
+
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100vw;
+}
+
+.nav-container a{
+  color: #fff;
+  padding-bottom: 15px;
+}
+
+.nav-container a:hover{
+  background: #219940;
+}

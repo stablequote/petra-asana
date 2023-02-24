@@ -12,27 +12,29 @@ function MainHeader() {
     //     setOpened(!opened)
     // }
   return (
-    <Header className='header'>
-        <div>
-            <Group>
-                <Burger size="sm" opened={opened} onClick={toggle} />
-            </Group>
-        </div>
-        <div>
-            <Group>
-                <Navbar className='navbar'>
-                    <a href="#">Projects</a>
-                    <a href="#">Issues</a>
-                    <a href="#">Summary</a>
-                    <a href="#">Statistics</a>
-                </Navbar>
-            </Group>
-        </div>
-        <Autocomplete 
-            placeholder="Search"
-            data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
-        />
-    </Header>
+    <div className="headerWrapper">
+        <Header className='header'>
+            <div>
+                <Group>
+                    <Burger size="sm" opened={opened} onClick={toggle} />
+                </Group>
+            </div>
+            <div>
+                <Group>
+                    <Navbar className='navbar'>
+                        <a href="#">Projects</a>
+                        <a href="#">Issues</a>
+                        <a href="#">Summary</a>
+                        <a href="#">Statistics</a>
+                    </Navbar>
+                </Group>
+            </div>
+            <Autocomplete 
+                placeholder="Search"
+                data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
+            />
+        </Header>
+    </div>
   )
 }
 

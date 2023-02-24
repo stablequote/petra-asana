@@ -13,13 +13,11 @@ function App() {
 
   return (
     <div className="App">
-       <Routes>
-        <Route path="/project" element={<Projects />} />
-      </Routes>
-      
-     <Layout>
-      <Projects />
-     </Layout>
+      <div className="wrapper">
+        {/* <MainHeader /> */}
+        <Demo />
+        <Layout />
+      </div>
     </div>
   )
 }

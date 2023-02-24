@@ -1,5 +1,11 @@
 .layout{
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr auto;
+    grid-area: content;
+    width: 100%;
+    border: 2px solid #000;
+    position: absolute;
+    top: 47px;
+    left: 312px;
+    width: 86%;
+    height: 90vh;
+    max-width: 75%;
 }
