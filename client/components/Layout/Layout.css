@@ -1,5 +1,0 @@
-.layout{
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr auto;
-}

@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import MainHeader from '../components/Header/Header'
+import MainHeader from './components/Header/Header'
 import {Routes, Route} from 'react-router-dom';
-import Sidebar  from '../components/Sidebar/Sidebar'
-import Main  from '../components/Main/Main'
-import Demo from '../components/test'
-import Layout from '../components/Layout/Layout';
-import Projects from '../components/Projects/Projects';
-// import Navbar from '../components/Navbar/Navbar'
+import Sidebar  from './components/Sidebar/Sidebar'
+import Main  from './components/Main/Main'
+import Demo from './components/test'
+import Layout from './components/Layout/Layout';
+import Projects from './components/Projects/Projects';
+// import Navbar from './components/Navbar/Navbar'
 // import './App.css'
 
 function App() {
