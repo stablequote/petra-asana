@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 function Demo() {
   return (
-    <Navbar height={600} p="xs" pt="lg" width={{ base: 300 }} style={{gridArea: "sidebar", background: "#000530", height: "100vh"}}>
+    <Navbar p="xs" pt="lg" width={{ base: 250 }} style={{gridArea: "sidebar", background: "#000530", height: "100vh", float: "left"}}>
       <Navbar.Section>{/* Header with logo */}</Navbar.Section>
       <Navbar.Section grow mt="md">
         <Box className='nav-container'>

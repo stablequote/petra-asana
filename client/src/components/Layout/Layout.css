@@ -2,10 +2,12 @@
     grid-area: content;
     width: 100%;
     border: 2px solid #000;
-    position: absolute;
+    /* position: absolute; */
     top: 47px;
     left: 312px;
     width: 86%;
-    height: 90vh;
-    max-width: 75%;
+    height: 100vh;
+    max-width: 100%;
+    float: right;
+    overflow-y: auto;
 }
