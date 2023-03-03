@@ -92,4 +92,4 @@
 * ROLES
     - owner/CEO => can view all things employees have done, assign projects/tasks to them.
     - project manager => can view his things, employees, and assign tasks to direct employees in the department
-    - employee => can only view his things.
+    - employee => can only view his tasks,projects assigned, settings/preferences.

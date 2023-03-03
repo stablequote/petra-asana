@@ -1,8 +1,11 @@
 import React from 'react'
+import CustomCalendar from '../../components/Calendar/Calendar'
 
 function Calender() {
   return (
-    <div>Calender</div>
+    <div>
+      <CustomCalendar />
+    </div>
   )
 }
 
