@@ -1,14 +1,6 @@
 .layout{
-    grid-area: content;
     width: 100%;
-    /* border: 2px solid #000; */
     background: rgb(234, 230, 255);
-    /* position: absolute; */
-    top: 47px;
-    left: 312px;
-    width: 86%;
     height: 100vh;
-    max-width: 100%;
-    float: right;
     overflow-y: auto;
 }

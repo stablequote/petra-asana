@@ -6,17 +6,25 @@ import Main  from './components/Main/Main'
 import Demo from './components/test'
 import Layout from './components/Layout/Layout';
 import Projects from './components/Projects/Projects';
+import { AppShell, Button, Drawer } from '@mantine/core';
 // import Navbar from './components/Navbar/Navbar'
 // import './App.css'
 
 function App() {
+  const [opened, setOpened] = useState(true);
 
   return (
     <div className="App">
       <div className="wrapper">
         {/* <MainHeader /> */}
-        <Demo />
-        <Layout />
+        <AppShell>
+          <Button onClick={() => setOpened(true)}>Open Drawer</Button>
+          <Button onClick={() => setOpened(false)}>Close Drawer</Button>
+          <Drawer opened={opened} onClose={() => setOpened(false)} withOverlay={false} size="xs">
+            <Demo  />
+          </Drawer>
+          <Layout />
+        </AppShell>
       </div>
     </div>
   )
