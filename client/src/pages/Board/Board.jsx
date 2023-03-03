@@ -285,7 +285,7 @@ function Board() {
         title="create task"
         overlayOpacity={0.55}
         overlayBlur={4}
-        transitionDuration={100}
+        transitionDuration={0}
         transitionTimingFunction="ease"
         centered
         >
@@ -303,7 +303,7 @@ function Board() {
           />
           <TextInput mb="md" label="Short summary" placeholder='write something' required />
           <Textarea mb="md" placeholder='Long description' label="description" autosize minRows={2} maxRows={6}/>
-          <Select 
+          {/* <Select 
           label="reported to"
           placeholder='select reporter'
           data={[
@@ -315,7 +315,7 @@ function Board() {
           searchable
           required
           mb="md"
-          />
+          /> */}
           <Select 
           label="assignee"
           placeholder='select assignee'

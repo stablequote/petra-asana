@@ -20,7 +20,11 @@ function App() {
         <AppShell>
           <Button onClick={() => setOpened(true)}>Open Drawer</Button>
           <Button onClick={() => setOpened(false)}>Close Drawer</Button>
-          <Drawer opened={opened} onClose={() => setOpened(false)} withOverlay={false} size="xs">
+          <Drawer opened={opened} onClose={() => setOpened(false)} withOverlay={false} size="xs"
+            transition="fade"
+            transitionDuration={50}
+            transitionTimingFunction="ease"
+          >
             <Demo  />
           </Drawer>
           <Layout />
