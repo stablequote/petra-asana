@@ -1,10 +1,24 @@
-import { Avatar, Box, Button, Navbar, NavLink, Flex, Text } from '@mantine/core';
+import { Avatar, Box, Button, Navbar, NavLink, Flex, Text, Image } from '@mantine/core';
 import {Link} from 'react-router-dom';
+import logo from '.././assets/logo.png'
 
 function Demo() {
   return (
     <Navbar p="xs" pt="lg" width={{ base: 250 }} style={{gridArea: "sidebar", background: "#000530", height: "100vh", float: "left"}}>
-      <Navbar.Section>{/* Header with logo */}</Navbar.Section>
+      <Navbar.Section>
+        <div>
+          <Image 
+          src={logo}
+          width={60}
+          height={60}
+          placeholder="main logo"
+          radius="md"
+          mt="md"
+          ml="xs"
+          />
+          {/* <img src={logo} alt="" /> */}
+        </div>
+      </Navbar.Section>
       <Navbar.Section grow mt="md">
         <Box className='nav-container'>
             <NavLink

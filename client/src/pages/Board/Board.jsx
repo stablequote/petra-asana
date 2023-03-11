@@ -1,30 +1,41 @@
-import { useState } from 'react';
-import { Box, Button, Center, Container, Flex, Group, Modal, Paper, Select, Text, Textarea, TextInput } from '@mantine/core'
+import { useEffect, useState } from 'react';
+import { Box, Button, Center, Container, Flex, Group, Menu, Modal, Paper, Select, Text, Textarea, TextInput } from '@mantine/core'
 import { Link, useParams } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { MdAddTask, MdMoreVert } from 'react-icons/md'
+import { MdAddTask, MdCopyAll, MdDelete, MdEdit, MdHorizontalSplit, MdMonetizationOn, MdMoreVert, MdOutlineAccessTime, MdOutlineAutoFixHigh } from 'react-icons/md'
 // import CustomEditor from '../../components/TextEditor/TextEditor';
 // import TaskModal from '../../components/TaskModal/TaskModal';
+import axios from 'axios'
 
 function Board() {
   const [opened, setOpened] = useState(false);
   const {projectId, taskId} = useParams();
 
+  // const data = fetch("http://localhost:8080/tasks").then((res) => {
+  //   console.log(res)
+  // })
+
+  useEffect(() => {
+    const tasks = axios.get("http://localhost:8080/tasks").then((res) => {
+      console.log(res.data)
+    })
+  }, [])
+
   return (
     <div>
       {/* filter */}
-      <Flex justify="space-between">
+      <Flex justify="space-between" px={29}>
         <Text>Filter goes here</Text>
         <Button color="lime" variant="gradient" leftIcon={<MdAddTask />} onClick={() => setOpened(true)}>Create Task</Button>
       </Flex>
       <DragDropContext>
         <Container fullWidth p="md" component={Flex}>
-          <Paper shadow="xl" p="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
             {/* card header */}
             <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
               <Center>
-                <MdMoreVert />
-                <MdMoreVert />
+                {/* <MdMoreVert />
+                <MdMoreVert /> */}
                 <Text size={12} fw={400} transform="uppercase" 
                   sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                   To do&nbsp;
@@ -32,7 +43,17 @@ function Board() {
                 </Text>
               </Center>
               <Center>
-                <Button size='xs' color="#42526e" width="24px" height="24px" radius="xs">...</Button>
+                {/* <Button size='xs' color="#42526e" width="24px" height="24px" radius="xs">...</Button> */}
+                <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item onClick={() => alert("hi")} icon={<MdEdit />}>Edit</Menu.Item>
+                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Center>
             </Flex>
             {/* actual card */}
@@ -42,20 +63,20 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
@@ -66,26 +87,26 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="green" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
             </Box>
           </Paper>
-          <Paper shadow="xl" p="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
             {/* card header */}
             <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
               <Center>
@@ -96,7 +117,17 @@ function Board() {
                 </Text>
               </Center>
               <Center>
-                <Button size='xs' color="#42526e">...</Button>
+                {/* <Button size='xs' color="#42526e">...</Button> */}
+                 <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Center>
             </Flex>
             {/* actual card */}
@@ -106,20 +137,20 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="red" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
@@ -130,26 +161,26 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
             </Box>
           </Paper>
-          <Paper shadow="xl" p="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
             {/* card header */}
             <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
               <Center>
@@ -160,7 +191,17 @@ function Board() {
                 </Text>
               </Center>
               <Center>
-                <Button size='xs' color="#42526e">...</Button>
+                {/* <Button size='xs' color="#42526e">...</Button> */}
+                 <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Center>
             </Flex>
             {/* actual card */}
@@ -170,20 +211,20 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
@@ -194,26 +235,26 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
             </Box>
           </Paper>
-          <Paper shadow="xl" p="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
             {/* card header */}
             <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
               <Center>
@@ -224,7 +265,17 @@ function Board() {
                 </Text>
               </Center>
               <Center>
-                <Button size='xs' color="#42526e">...</Button>
+                {/* <Button size='xs' color="#42526e">...</Button> */}
+                 <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Center>
             </Flex>
             {/* actual card */}
@@ -234,20 +285,20 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>
@@ -258,20 +309,20 @@ function Board() {
                   <Text size={10} color="indigo">finish beta</Text>
                   <span>...</span>
                 </Flex>
-                <Box pl="sm" pb="sm">
-                  <span>icon</span>
-                  26 FEB
+                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                  &nbsp; 26 FEB
                 </Box>
                 <Flex justify="space-between">
                   <Box>
-                    <span>icon</span>
+                    <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span>icon</span>
+                    <span><MdHorizontalSplit color="#fcab00" /></span>
                     &nbsp;
-                    <span>icon</span>
+                    {/* <span>icon</span> */}
                   </Box>
                 </Flex>
               </Container>

@@ -6,7 +6,7 @@ import Main  from './components/Main/Main'
 import Demo from './components/test'
 import Layout from './components/Layout/Layout';
 import Projects from './components/Projects/Projects';
-import { AppShell, Button, Drawer } from '@mantine/core';
+import { AppShell, Button, Drawer, Loader } from '@mantine/core';
 // import Navbar from './components/Navbar/Navbar'
 // import './App.css'
 
@@ -17,11 +17,11 @@ function App() {
     <div className="App">
       <div className="wrapper">
         {/* <MainHeader /> */}
-        <AppShell>
-          <Button onClick={() => setOpened(true)}>Open Drawer</Button>
-          <Button onClick={() => setOpened(false)}>Close Drawer</Button>
+        <AppShell sx={{background: "rgb(234, 230, 255)"}}>
+          {/* <Button onClick={() => setOpened(true)}>Open Drawer</Button>
+          <Button onClick={() => setOpened(false)}>Close Drawer</Button> */}
           <Drawer opened={opened} onClose={() => setOpened(false)} withOverlay={false} size="xs"
-            transition="fade"
+            transition="slide-right"
             transitionDuration={50}
             transitionTimingFunction="ease"
           >

@@ -16,6 +16,7 @@ import Reports from '../../pages/Reports/Reports'
 import ProjectSettings from '../../pages/ProjectSettings/ProjectSettings'
 import './Layout.css'
 import NavTabs from '../NavTabs/NavTabs'
+import DataGrid from '../DataGrid/DataGrid'
 
 function Layout({children}) {
   const {id} = useParams()
@@ -24,7 +25,7 @@ function Layout({children}) {
     <div className='layout'>
         {/* <Demo />
         <MainHeader /> */}
-        <Container size="md" p="sm">
+        <Container size="md" p="sm" pt="xl">
           <Text mb="lg" pl="md" color="darkblue">Project Name</Text>
           <NavTabs id={id} />
           {/* {children} */}
@@ -39,7 +40,8 @@ function Layout({children}) {
             {/* actual project routes */}
             <Route path="/projects/:id/summary" element={<Summary />} />
             <Route path="/projects/:id/board" element={<Board />} />
-            <Route path="/projects/:id/tasks" element={<Tasks />} />
+            {/* <Route path="/projects/:id/tasks" element={<Tasks />} /> */}
+            <Route path="/projects/:id/tasks" element={<DataGrid />} />
             <Route path="/projects/:id/calender" element={<Calender />} />
             <Route path="/projects/:id/timeline" element={<CustomTimeline />} />
             <Route path="/projects/:id/reports" element={<Reports />} />

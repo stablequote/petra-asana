@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Indicator, Dialog, Input } from '@mantine/core';
+import { Indicator, Dialog, Input, Modal } from '@mantine/core';
 
 function CustomCalendar() {
   const [value, setValue] = useState(new Date);
@@ -15,17 +15,21 @@ function CustomCalendar() {
         return (
           <Indicator size={10} color="red" offset={8} disabled={day !== 16}>
             <div onClick={() => setOpened((o) => !o)}>{day}</div>
-            <Dialog
-            opened={opened}
-            withCloseButton
-            onClose={() => setOpened(false)}
-            size="lg"
-            radius="md"
-            shadow="xl"
-            p={30}
+            {/* <Dialog
+              opened={opened}
+              withCloseButton
+              onClose={() => setOpened(false)}
+              size="lg"
+              radius="md"
+              shadow="xl"
+              p={30}
             >
-                <Input placeholder='Enter something' size="sm" />
-            </Dialog>
+              <Input placeholder='Enter something' size="sm" />
+            </Dialog> */}
+            <Modal withCloseButton={true} title="add event to calender" overlayOpacity={0.55}
+      overlayBlur={3}  onClose={() => setOpened(false)} opened={opened}>
+      <Input placeholder='modal' />
+    </Modal>
           </Indicator>
         );
       }}
@@ -46,7 +50,7 @@ function CustomCalendar() {
           border: `1px solid ${
             theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
           }`,
-          height: 70,
+          height: 62,
         },
       })}
     />
