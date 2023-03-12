@@ -67,7 +67,7 @@ const Issue = mongoose.model("Issue", issueSchema)
 const TestTask = mongoose.model("TestTask", SampleTaskSchema)
 
 // db connection
-mongoose.connect(localDB).then(() => {
+mongoose.connect(DB_URI).then(() => {
     console.log('Connected to DB!')
 })
 

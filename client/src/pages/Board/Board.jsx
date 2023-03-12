@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Box, Button, Center, Container, Flex, Group, Menu, Modal, Paper, Select, Text, Textarea, TextInput } from '@mantine/core'
 import { Link, useParams } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { MdAddTask, MdCopyAll, MdDelete, MdEdit, MdHorizontalSplit, MdMonetizationOn, MdMoreVert, MdOutlineAccessTime, MdOutlineAutoFixHigh } from 'react-icons/md'
+import { MdAddTask, MdCopyAll, MdDelete, MdEdit, MdHorizontalSplit, MdMonetizationOn, MdMoreVert, MdOutlineAccessTime, MdOutlineAutoFixHigh, MdBlurOn } from 'react-icons/md'
 // import CustomEditor from '../../components/TextEditor/TextEditor';
 // import TaskModal from '../../components/TaskModal/TaskModal';
+// import CopyBtn from '../../components/CopyBtn/copyBtn'
 import axios from 'axios'
 
 function Board() {
@@ -29,7 +30,7 @@ function Board() {
         <Button color="lime" variant="gradient" leftIcon={<MdAddTask />} onClick={() => setOpened(true)}>Create Task</Button>
       </Flex>
       <DragDropContext>
-        <Container fullWidth p="md" component={Flex}>
+        <Container fullWidth p="md" component={Flex} style={{width: 1200}}>
           <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
             {/* card header */}
             <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
@@ -51,6 +52,7 @@ function Board() {
                   <Menu.Dropdown>
                     <Menu.Item onClick={() => alert("hi")} icon={<MdEdit />}>Edit</Menu.Item>
                     <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                    {/* <Menu.Item><CopyBtn />  </Menu.Item> */}
                     <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
@@ -59,15 +61,15 @@ function Board() {
             {/* actual card */}
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -83,15 +85,15 @@ function Board() {
             </Box>
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -133,15 +135,15 @@ function Board() {
             {/* actual card */}
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -157,15 +159,15 @@ function Board() {
             </Box>
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -207,15 +209,15 @@ function Board() {
             {/* actual card */}
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -231,15 +233,15 @@ function Board() {
             </Box>
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
@@ -281,22 +283,22 @@ function Board() {
             {/* actual card */}
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
+                    <span><MdHorizontalSplit color="red" /></span>
                     &nbsp;
                     {/* <span>icon</span> */}
                   </Box>
@@ -305,22 +307,22 @@ function Board() {
             </Box>
             <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
               <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" justify="space-between" style={{justifyContent: "space-between"}}>
+                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
                   <Text size={10} color="indigo">finish beta</Text>
-                  <span>...</span>
+                <MdBlurOn size={16} />
                 </Flex>
-                <Box pl="sm" pb="sm" sx={{display: "flex", alignItems: "center", color: "red", width: "90px"}} >
+                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
                   <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
                   &nbsp; 26 FEB
                 </Box>
-                <Flex justify="space-between">
+                <Flex justify="space-between" mt="md">
                   <Box>
                     <span><MdMonetizationOn color="green" /></span>
                     &nbsp;
                     PET-3
                   </Box>
                   <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
+                    <span><MdHorizontalSplit color="green" /></span>
                     &nbsp;
                     {/* <span>icon</span> */}
                   </Box>
