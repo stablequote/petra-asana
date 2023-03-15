@@ -14,12 +14,12 @@ import {
   Skeleton,
 } from '@mantine/core';
 import { IconTrash, IconEdit } from '@tabler/icons-react';
-import { data, states } from '../../utils/makeData';
+import { data, datas, states } from '../../utils/makeData';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 const DataGrid = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => data);
+  const [tableData, setTableData] = useState(() => datas);
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -96,41 +96,56 @@ const DataGrid = () => {
         size: 80,
       },
       {
-        accessorKey: 'firstName',
-        header: 'First Name',
+        accessorKey: 'title',
+        header: 'Title',
         size: 140,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
         }),
       },
       {
-        accessorKey: 'lastName',
-        header: 'Last Name',
+        accessorKey: 'summary',
+        header: 'Summary',
         size: 140,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
         }),
       },
       {
-        accessorKey: 'email',
-        header: 'Email',
+        accessorKey: 'status',
+        header: 'Status',
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
           type: 'email',
         }),
       },
       {
-        accessorKey: 'age',
-        header: 'Age',
+        accessorKey: 'priority',
+        header: 'Priority',
         size: 80,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
-          type: 'number',
         }),
       },
       {
-        accessorKey: 'state',
-        header: 'State',
+        accessorKey: 'assignee',
+        header: 'Assignee',
+        size: 140,
+        mantineEditTextInputProps: ({ cell }) => ({
+          ...getCommonEditTextInputProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'assignedTo',
+        header: 'Assigned To',
+        size: 140,
+        mantineEditTextInputProps: ({ cell }) => ({
+          ...getCommonEditTextInputProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'dueDate',
+        header: 'Due Date',
         // mantineEditTextInputProps: {
         //   select: true, //change to select for a dropdown
         //   children: states.map((state) => (
@@ -161,6 +176,7 @@ const DataGrid = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
+        withBorder
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
@@ -183,7 +199,7 @@ const DataGrid = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="filled"
           >
-            Create New Account
+            Create Task
           </Button>
         )}
       />
@@ -215,7 +231,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog opened={open}>
-      <Title ta="center">Create New Account</Title>
+      <Title ta="center">Create Task</Title>
       <form onSubmit={(e) => e.preventDefault()}>
         <Stack
           sx={{
@@ -247,7 +263,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button color="teal" onClick={handleSubmit} variant="filled">
-          Create New Account
+          Create Task
         </Button>
       </Flex>
     </Dialog>
