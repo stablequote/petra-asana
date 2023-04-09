@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 require('dotenv').config();
 const app = express();
+const multer = require('multer');
+const fs = require("fs")
 
 // importing routes
 const projectRouter = require('./routes/project');
 const taskRouter = require('./routes/task');
 const userRouter = require('./routes/user');
 
-const PORT = process.env.port || 8080
+const PORT = process.env.port || 5000
 const DB_URI = process.env.DB_URI
 
 const localDB = "mongodb://localhost:27017/petra_dev"
@@ -41,6 +43,9 @@ const SampleTaskSchema = mongoose.Schema({
     assignedTo: {
         type: String
     },
+    priority: {
+        type: String
+    },
     category: {
         type: String
     },
@@ -65,6 +70,10 @@ const SampleTaskSchema = mongoose.Schema({
 
 const Issue = mongoose.model("Issue", issueSchema)
 const TestTask = mongoose.model("TestTask", SampleTaskSchema)
+const Task = require("./models/tasks");
+const Attachment = require('./models/attachments');
+const bodyParser = require('body-parser');
+
 
 // db connection
 mongoose.connect(DB_URI).then(() => {
@@ -76,7 +85,7 @@ const findIssue= async () => {
     console.log(issues)
 }
 const findTask = async () => {
-    const tasks = await TestTask.find({})
+    const tasks = await Task.find({})
     console.log(tasks)
 }
 const createIssue= async () => {[]
@@ -129,31 +138,33 @@ const createIssue= async () => {[]
 }
 
 const createTask = async () => {
-    const tasks = await TestTask.insertMany([
+    const tasks = await Task.insertMany([
         {
-            "title": "test task 1",
-            "description": "a little demo testing db model",
-            "assignee": "ben",
-            "assignedTo": "user",
-            "category": "development",
+            "title": "manual task 1",
+            "description": "adding task manually from node server.",
+            "type": "agriculture",
+            "assignee": "asaad",
+            "assignedTo": "noone haha",
+            "priority": "medium",
+            "category": "not yet",
             "status": "ongoing",
-        },
+            "allDay": false,
+            "isFavourite": false,
+            "isViewed": false,
+            },
         {
-            "title": "test task 2",
-            "description": "a little demo testing db model",
-            "assignee": "ben",
-            "assignedTo": "user",
-            "category": "development",
-            "status": "done",
-        },
-        {
-            "title": "test task 3",
-            "description": "a little demo testing db model",
-            "assignee": "ben",
-            "assignedTo": "user",
-            "category": "development",
-            "status": "to-do",
-        }
+            "title": "manual task 2",
+            "description": "adding task manually from node server.",
+            "type": "agriculture",
+            "assignee": "asaad",
+            "assignedTo": "noone haha",
+            "priority": "medium",
+            "category": "not yet",
+            "status": "ongoing",
+            "allDay": false,
+            "isFavourite": true,
+            "isViewed": false,
+            },
     ])
     console.log(tasks)
 }
@@ -161,21 +172,86 @@ const createTask = async () => {
 // title - desc - assignee - assignedTo - category - status
 
 // createIssue()
-findTask()
+// findTask()
 // createTask()
 
+
+app.use(cors({
+    origin: "http://localhost:5176",
+    credentials: true,
+}))
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}))
 app.use('/project', projectRouter)
 app.use('/task', taskRouter)
 app.use('/user', userRouter)
+
+app.use(express.static('uploads'))
 
 app.get("/tasks", async(req, res) => {
     const tasks = await TestTask.find({})
     res.send(tasks)
     return;
 })
+
+app.post("/tasks/create", async (req, res) => {
+    const task = new Task(req.body)
+    try {
+        await task.save()
+        return res.status(200).json({
+          message: "Successfully added task!"
+        })
+    } catch (err) {
+        console.log(err);
+        res.send(err)
+    }
+})
+
+// upload attachment
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + '.jpg')
+    }
+});
+
+app.get('/populate/:id', async (req, res) => {
+    const {id} = req.params;
+
+    const resComment  = await Task.findById(id).populate('comments')
+    res.send(resComment)
+})
+ 
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.single("image"), async (req, res) => {
+    // const img = fs.readFileSync(req.file.path);
+    // const encode_img = img.toString('base64');
+    // const final_img = {
+    //     // contentType:req.file.mimetype,
+    //     image:new Buffer(encode_img,'base64')
+    // };
+    const final_img = req.file.path;
+    Attachment.create(final_img,function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+            console.log(result.img);
+            console.log("Saved To database");
+            res.contentType(final_img.contentType);
+            res.send(final_img.image);
+        }
+    })
+})
+
+
+// app.post("/upload", upload.single("image", (req, res) => {
+    
+// }))
+
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)

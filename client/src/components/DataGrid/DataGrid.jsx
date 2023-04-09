@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { MantineReactTable } from 'mantine-react-table';
 import {
   Box,
@@ -14,14 +14,26 @@ import {
   Skeleton,
 } from '@mantine/core';
 import { IconTrash, IconEdit } from '@tabler/icons-react';
-import { data, datas, states } from '../../utils/makeData';
+// import { data, datas, states } from '../../utils/makeData';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { DatePicker } from '@mantine/dates';
+import axios from 'axios';
+
 
 const DataGrid = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => datas);
+  const [tableData, setTableData] = useState(() => []);
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const baseUri = 'http://localhost:5000/task/'
+    const req = axios.get(baseUri).then((res) => {
+      console.log(res.data)
+      setLoading(!loading)
+      setTableData(res.data)
+    })
+  }, [])
 
   const handleCreateNewRow = (values) => {
     tableData.push(values);
@@ -104,8 +116,8 @@ const DataGrid = () => {
         }),
       },
       {
-        accessorKey: 'summary',
-        header: 'Summary',
+        accessorKey: 'description',
+        header: 'description',
         size: 140,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
@@ -118,6 +130,31 @@ const DataGrid = () => {
           ...getCommonEditTextInputProps(cell),
           type: 'email',
         }),
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == "pending"
+              ? theme.colors.gray[6]
+              : cell.getValue() == "done"
+              ? theme.colors.green[9]
+              : theme.colors.blue[8],
+
+              borderRadius: '4px',
+              color: '#fff',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </Box>
+        ),
       },
       {
         accessorKey: 'priority',
@@ -126,6 +163,31 @@ const DataGrid = () => {
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
         }),
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == "high"
+              ? theme.colors.red[6]
+              : cell.getValue() == "low"
+              ? theme.colors.blue[4]
+              : theme.colors.yellow[8],
+
+              borderRadius: '4px',
+              color: '#fff',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </Box>
+        ),
       },
       {
         accessorKey: 'assignee',
@@ -144,7 +206,7 @@ const DataGrid = () => {
         }),
       },
       {
-        accessorKey: 'dueDate',
+        accessorKey: 'createdAt',
         header: 'Due Date',
         // mantineEditTextInputProps: {
         //   select: true, //change to select for a dropdown
@@ -154,6 +216,29 @@ const DataGrid = () => {
         //     </Menu.Item>
         //   )),
         // },
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == Date.now()
+              ? theme.colors.red[6]
+              : theme.colors.white,
+
+              borderRadius: '4px',
+              color: '#333',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </Box>
+        ),
       },
     ],
     [getCommonEditTextInputProps],
@@ -172,11 +257,25 @@ const DataGrid = () => {
           },
         }}
         columns={columns}
+        state={
+          {showSkeletons: false}
+
+        }
         data={tableData}
         editingMode="modal" //default
         enableColumnOrdering
+        initialState={{ density: 'xs',pagination: {pageSize: 5} }}
         enableEditing
         withBorder
+        // mantineTableBodyCellProps={{
+        //   sx: {
+        //     backgroundColor: 'red',
+        //     ':hover': {
+        //       background: "green"
+        //     }
+
+        //   }
+        // }}
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
@@ -249,6 +348,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               }
             />
           ))}
+          <DatePicker label="pick date" placeholder="select date" onChange={(e) =>
+                setValues({ ...values, [e.target.name]: e.target.value })
+              } />
         </Stack>
       </form>
       <Flex

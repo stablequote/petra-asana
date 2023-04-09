@@ -1,93 +1,193 @@
-import { Center, Container, Flex, Grid, Box, Group, Anchor, SimpleGrid, Stack, Text, Title, Paper, CheckIcon, ScrollArea, List, Kbd } from '@mantine/core'
+import { 
+  Container, 
+  Flex, 
+  Grid, 
+  Box, 
+  Group, 
+  Anchor, 
+  SimpleGrid, 
+  Text, 
+  Title, 
+  Paper, 
+  ScrollArea, 
+  List, 
+  Kbd, 
+  RingProgress, 
+  Center,
+  Progress,
+  Button,
+  Skeleton
+} from '@mantine/core'
 import NavTabs from '../../components/NavTabs/NavTabs';
 import { MdCheckCircle, MdDataExploration, MdOutlinePreview, MdOutlineTimer, MdPendingActions } from 'react-icons/md'
 import PieChart from '../../components/PieChart/PieChart';
+import axios from 'axios';
+import {useState, useEffect} from 'react';
 
 function Summary() {
+  const [tasks, setTasks] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [done, setDone] = useState(0)
+  const [rejected, setRejected] = useState(0)
+  const [pending, setPending] = useState(0)
+  const [todo, setTodo] = useState(0)
 
-  const data = [
+  // let pending;
+
+  let data = [
     {
       "id": "rejected",
       "label": "rejected",
-      "value": 369,
+      "value": todo.length,
       "color": "hsl(267, 70%, 50%)"
     },
     {
       "id": "to do",
       "label": "to do",
-      "value": 254,
+      "value": pending.length,
       "color": "hsl(225, 70%, 50%)"
     },
     {
       "id": "done",
       "label": "done",
-      "value": 502,
+      "value": done.length - 3,
       "color": "hsl(101, 70%, 50%)"
     },
     {
       "id": "purchased",
       "label": "purchased",
-      "value": 564,
+      "value": 2,
       "color": "hsl(238, 70%, 50%)"
     },
     {
       "id": "pending",
       "label": "pending",
-      "value": 587,
+      "value": pending.length,
       "color": "hsl(189, 70%, 50%)"
     }
   ]
+  
+  
+
+
+  useEffect(() => {
+    const baseUri = 'http://localhost:5000/tasks/'
+    setLoading(true)
+    const req = axios.get(baseUri).then((res) => {
+      // console.log(res.data)
+      // setTasks(res.data)
+      setTasks([res.data][0])
+      // const bitti = [res.data][0].filter((x) => x.status == 'done');
+      setPending([res.data][0].filter((x) => x.status == 'pending'));
+      setDone([res.data][0].filter((x) => x.status == 'done'));
+      setRejected([res.data][0].filter((x) => x.status == 'rejected'));
+      setTodo([res.data][0].filter((x) => x.status == 'to-do'));
+      // setTasks(bitti)
+
+      // data = [
+      //   {
+      //     "id": "rejected",
+      //     "label": "rejected",
+      //     "value": pending,
+      //     "color": "hsl(267, 70%, 50%)"
+      //   },
+      //   {
+      //     "id": "to do",
+      //     "label": "to do",
+      //     "value": 13,
+      //     "color": "hsl(225, 70%, 50%)"
+      //   },
+      //   {
+      //     "id": "done",
+      //     "label": "done",
+      //     "value": bitti,
+      //     "color": "hsl(101, 70%, 50%)"
+      //   },
+      //   {
+      //     "id": "purchased",
+      //     "label": "purchased",
+      //     "value": 6,
+      //     "color": "hsl(238, 70%, 50%)"
+      //   },
+      //   {
+      //     "id": "pending",
+      //     "label": "pending",
+      //     "value": 3,
+      //     "color": "hsl(189, 70%, 50%)"
+      //   }
+      // ]
+      setLoading(false)
+      console.log(tasks)
+      console.log(pending)
+      console.log(rejected)
+      console.log(done)
+    })
+  }, [])
+
+  let doneTasks;
+  const filterTasks = () => {
+    doneTasks = tasks.filter((task) => task.status == "done");
+    console.log(doneTasks)
+
+  }
 
   return (
     <Container size="lg" px="md">
+      
       <Group>
         <Grid>
-          <Grid.Col span={3} style={{width: "235px"}}>
+          <p></p>
+          <Grid.Col span={3} sx={{width: "235px", ":hover": {transform: "scale(1.03)", transition: "all 0.4s ease-in-out"}}}>
             <Paper shadow="lg" px="xs" py="xl" withBorder>
               <Container height={400}>
               <Flex justify="space-evenly" align="center">
                 <MdCheckCircle size={40} color="rgb(20, 191, 58)" />
                 <div style={{color: "#5E6C84", marginLeft: "4px"}}>
-                  <Text color="#5E6C84" fz="lg" fw={600}>3 done</Text>
+                  {tasks.status == "done" && <Text>{tasks.length}</Text>}
+                 
+                  {loading ? <Skeleton height={12} animate radius="xl" /> : 
+                  <Text color="#5E6C84" fz="lg" onLoad={filterTasks} fw={600}>{done.length} done</Text>
+                  }
                   <Text>in last 7 days</Text>
+                  {/* <Button onClick={filterTasks}>Filter</Button> */}
                 </div>
               </Flex>
               </Container>
             </Paper>
           </Grid.Col>
-          <Grid.Col span={3} style={{width: "235px"}}>
+          <Grid.Col span={3} sx={{width: "235px", ":hover": {transform: "scale(1.03)", transition: "all 0.4s ease-in-out"}}}>
             <Paper shadow="lg" px="xs" py="xl" withBorder>
               <Container height={400}>
               <Flex justify="space-evenly" align="center">
                 <MdDataExploration size={40} color="blue" />
                 <div style={{color: "#5E6C84", marginLeft: "4px"}}>
-                  <Text color="#5E6C84" fz="md" fw={600}>7 progressing</Text>
+                  <Text color="#5E6C84" fz="md" fw={600}>{todo.length} progressing</Text>
                   <Text>at current time</Text>
                 </div>
               </Flex>
               </Container>
             </Paper>
           </Grid.Col>
-          <Grid.Col span={3} style={{width: "235px"}}>
+          <Grid.Col span={3} sx={{width: "235px", ":hover": {transform: "scale(1.03)", transition: "all 0.4s ease-in-out"}}}>
             <Paper shadow="lg" px="xs" py="xl" withBorder>
               <Container height={400}>
               <Flex justify="space-evenly" align="center">
                 <MdPendingActions size={40} color="#5E6C84" />
                 <div style={{color: "#5E6C84", marginLeft: "4px"}}>
-                  <Text color="#5E6C84" fz="lg" fw={600}>17 pending</Text>
+                  <Text color="#5E6C84" fz="lg" fw={600}>{pending.length} pending</Text>
                   <Text>in next 7 days</Text>
                 </div>
               </Flex>
               </Container>
             </Paper>
           </Grid.Col>
-          <Grid.Col span={3} style={{width: "235px"}}>
+          <Grid.Col span={3} sx={{width: "235px", ":hover": {transform: "scale(1.03)", transition: "all 0.4s ease-in-out"}}}>
             <Paper shadow="lg" px="xs" py="xl" withBorder>
               <Container height={400}>
               <Flex justify="space-evenly" align="center">
                 <MdOutlinePreview size={40} color="rgb(20, 191, 58)" />
                 <div style={{color: "#5E6C84", marginLeft: "4px"}}>
-                  <Text color="#5E6C84" fz="lg" fw={600}>34 reviewed</Text>
+                  <Text color="#5E6C84" fz="lg" fw={600}>{tasks.length} reviewed</Text>
                   <Text>in last 7 days</Text>
                 </div>
               </Flex>

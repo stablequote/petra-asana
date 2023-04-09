@@ -33,7 +33,7 @@ function Board() {
   // })
 
   useEffect(() => {
-    const tasks = axios.get("http://localhost:8080/tasks").then((res) => {
+    const tasks = axios.get("http://localhost:5000/tasks").then((res) => {
       console.log(res.data)
     })
   }, [])
@@ -46,310 +46,330 @@ function Board() {
         <Filter />
         <Button color="lime" variant="gradient" leftIcon={<MdAddTask />} onClick={() => setOpened(true)}>Create Task</Button>
       </Flex>
-      <DragDropContext>
-        <Container fullWidth p="md" component={Flex} style={{width: 1200}}>
-          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
-            {/* card header */}
-            <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
-              <Center>
-                {/* <MdMoreVert />
-                <MdMoreVert /> */}
-                <Text size={12} fw={400} transform="uppercase" 
-                  sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                  To do&nbsp;
-                  <span>5</span>
-                </Text>
-              </Center>
-              <Center>
-                {/* <Button size='xs' color="#42526e" width="24px" height="24px" radius="xs">...</Button> */}
-                <Menu shadow="md" width={200}>
-                  <Menu.Target>
-                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item onClick={() => alert("hi")} icon={<MdEdit />}>Edit</Menu.Item>
-                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
-                    {/* <Menu.Item><CopyBtn />  </Menu.Item> */}
-                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Center>
-            </Flex>
-            {/* actual card */}
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
+      <Container p="md" component={Flex} style={{width: 1200}}>
+        <DragDropContext onDragStart={result => console.log(result)}>
+          <Droppable droppableId="1">
+            {(provided) => (
+                <Paper {...provided.droppableProps} ref={provided.innerRef} shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+                {/* card header */}
+                <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
+                  <Center>
+                    {/* <MdMoreVert />
+                    <MdMoreVert /> */}
+                    <Text size={12} fw={400} transform="uppercase" 
+                      sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                      To do&nbsp;
+                      <span>5</span>
+                    </Text>
+                  </Center>
+                  <Center>
+                    {/* <Button size='xs' color="#42526e" width="24px" height="24px" radius="xs">...</Button> */}
+                    <Menu shadow="md" width={200}>
+                      <Menu.Target>
+                        <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <Menu.Item onClick={() => alert("hi")} icon={<MdEdit />}>Edit</Menu.Item>
+                        <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                        {/* <Menu.Item><CopyBtn />  </Menu.Item> */}
+                        <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </Center>
                 </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
+                {/* actual card */}
+                <Draggable draggableId="dr-1" index="in-1">
+                  {(provided) => (
+                    <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                      <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                        <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                          <Text size={10} color="indigo">finish beta</Text>
+                        <MdBlurOn size={16} />
+                        </Flex>
+                        <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                          <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                          &nbsp; 26 FEB
+                        </Box>
+                        <Flex justify="space-between" mt="md">
+                          <Box>
+                            <span><MdMonetizationOn color="green" /></span>
+                            &nbsp;
+                            PET-3
+                          </Box>
+                          <Box>
+                            <span><MdHorizontalSplit color="#fcab00" /></span>
+                            &nbsp;
+                            {/* <span>icon</span> */}
+                          </Box>
+                        </Flex>
+                      </Container>
+                    </Box>
+                  )}
+                </Draggable>
+                <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                  <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                    <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                      <Text size={10} color="indigo">finish beta</Text>
+                    <MdBlurOn size={16} />
+                    </Flex>
+                    <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                      <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                      &nbsp; 26 FEB
+                    </Box>
+                    <Flex justify="space-between" mt="md">
+                      <Box>
+                        <span><MdMonetizationOn color="green" /></span>
+                        &nbsp;
+                        PET-3
+                      </Box>
+                      <Box>
+                        <span><MdHorizontalSplit color="green" /></span>
+                        &nbsp;
+                        {/* <span>icon</span> */}
+                      </Box>
+                    </Flex>
+                  </Container>
                 </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
+              </Paper>
+            )}
+          </Droppable>
+          <Droppable droppableId='2'>
+            {(provided) => (
+              <Paper {...provided.droppableProps} ref={provided.innerRef} shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+                {/* card header */}
+                <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
+                  <Center>
+                    <Text size={12} fw={400} transform="uppercase" 
+                      sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                      In Progress&nbsp;
+                      <span>5</span>
+                    </Text>
+                  </Center>
+                  <Center>
+                    {/* <Button size='xs' color="#42526e">...</Button> */}
+                      <Menu shadow="md" width={200}>
+                      <Menu.Target>
+                        <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                        <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                        <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </Center>
                 </Flex>
-              </Container>
-            </Box>
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
+                {/* actual card */}
+                <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                  <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                    <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                      <Text size={10} color="indigo">finish beta</Text>
+                    <MdBlurOn size={16} />
+                    </Flex>
+                    <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                      <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                      &nbsp; 26 FEB
+                    </Box>
+                    <Flex justify="space-between" mt="md">
+                      <Box>
+                        <span><MdMonetizationOn color="green" /></span>
+                        &nbsp;
+                        PET-3
+                      </Box>
+                      <Box>
+                        <span><MdHorizontalSplit color="red" /></span>
+                        &nbsp;
+                        {/* <span>icon</span> */}
+                      </Box>
+                    </Flex>
+                  </Container>
                 </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="green" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-          </Paper>
-          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
-            {/* card header */}
-            <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
-              <Center>
-                <Text size={12} fw={400} transform="uppercase" 
-                  sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                  In Progress&nbsp;
-                  <span>5</span>
-                </Text>
-              </Center>
-              <Center>
-                {/* <Button size='xs' color="#42526e">...</Button> */}
-                 <Menu shadow="md" width={200}>
-                  <Menu.Target>
-                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
-                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
-                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Center>
-            </Flex>
-            {/* actual card */}
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
+                <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                  <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                    <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                      <Text size={10} color="indigo">finish beta</Text>
+                    <MdBlurOn size={16} />
+                    </Flex>
+                    <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                      <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                      &nbsp; 26 FEB
+                    </Box>
+                    <Flex justify="space-between" mt="md">
+                      <Box>
+                        <span><MdMonetizationOn color="green" /></span>
+                        &nbsp;
+                        PET-3
+                      </Box>
+                      <Box>
+                        <span><MdHorizontalSplit color="#fcab00" /></span>
+                        &nbsp;
+                        {/* <span>icon</span> */}
+                      </Box>
+                    </Flex>
+                  </Container>
                 </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
+              </Paper>
+            )}
+          </Droppable>
+          <Droppable droppableId='3'>
+            {(provided) => (
+            <Paper {...provided.droppableProps} ref={provided.innerRef} shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+              {/* card header */}
+              <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
+                <Center>
+                  <Text size={12} fw={400} transform="uppercase" 
+                    sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    Done&nbsp;
+                    <span>5</span>
+                  </Text>
+                </Center>
+                <Center>
+                  {/* <Button size='xs' color="#42526e">...</Button> */}
+                    <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                      <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                      <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                      <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                </Center>
+              </Flex>
+              {/* actual card */}
+              <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                  <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                    <Text size={10} color="indigo">finish beta</Text>
+                  <MdBlurOn size={16} />
+                  </Flex>
+                  <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                    <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                    &nbsp; 26 FEB
                   </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="red" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
+                  <Flex justify="space-between" mt="md">
+                    <Box>
+                      <span><MdMonetizationOn color="green" /></span>
+                      &nbsp;
+                      PET-3
+                    </Box>
+                    <Box>
+                      <span><MdHorizontalSplit color="#fcab00" /></span>
+                      &nbsp;
+                      {/* <span>icon</span> */}
+                    </Box>
+                  </Flex>
+                </Container>
+              </Box>
+              <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                  <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                    <Text size={10} color="indigo">finish beta</Text>
+                  <MdBlurOn size={16} />
+                  </Flex>
+                  <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                    <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                    &nbsp; 26 FEB
                   </Box>
+                  <Flex justify="space-between" mt="md">
+                    <Box>
+                      <span><MdMonetizationOn color="green" /></span>
+                      &nbsp;
+                      PET-3
+                    </Box>
+                    <Box>
+                      <span><MdHorizontalSplit color="#fcab00" /></span>
+                      &nbsp;
+                      {/* <span>icon</span> */}
+                    </Box>
+                  </Flex>
+                </Container>
+              </Box>
+            </Paper>
+            )}
+          </Droppable>
+          <Droppable droppableId='4'>
+            {(provided) => (
+              <Paper {...provided.droppableProps} ref={provided.innerRef} shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
+                {/* card header */}
+                <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
+                  <Center>
+                    <Text size={12} fw={400} transform="uppercase" 
+                      sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                      Rejected&nbsp;
+                      <span>5</span>
+                    </Text>
+                  </Center>
+                  <Center>
+                    {/* <Button size='xs' color="#42526e">...</Button> */}
+                      <Menu shadow="md" width={200}>
+                      <Menu.Target>
+                        <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
+                        <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
+                        <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </Center>
                 </Flex>
-              </Container>
-            </Box>
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
+                {/* actual card */}
+                <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                  <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                    <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                      <Text size={10} color="indigo">finish beta</Text>
+                    <MdBlurOn size={16} />
+                    </Flex>
+                    <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                      <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                      &nbsp; 26 FEB
+                    </Box>
+                    <Flex justify="space-between" mt="md">
+                      <Box>
+                        <span><MdMonetizationOn color="green" /></span>
+                        &nbsp;
+                        PET-3
+                      </Box>
+                      <Box>
+                        <span><MdHorizontalSplit color="red" /></span>
+                        &nbsp;
+                        {/* <span>icon</span> */}
+                      </Box>
+                    </Flex>
+                  </Container>
                 </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-          </Paper>
-          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
-            {/* card header */}
-            <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
-              <Center>
-                <Text size={12} fw={400} transform="uppercase" 
-                  sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                  Done&nbsp;
-                  <span>5</span>
-                </Text>
-              </Center>
-              <Center>
-                {/* <Button size='xs' color="#42526e">...</Button> */}
-                 <Menu shadow="md" width={200}>
-                  <Menu.Target>
-                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
-                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
-                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Center>
-            </Flex>
-            {/* actual card */}
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
+                <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
+                  <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
+                    <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
+                      <Text size={10} color="indigo">finish beta</Text>
+                    <MdBlurOn size={16} />
+                    </Flex>
+                    <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
+                      <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
+                      &nbsp; 26 FEB
+                    </Box>
+                    <Flex justify="space-between" mt="md">
+                      <Box>
+                        <span><MdMonetizationOn color="green" /></span>
+                        &nbsp;
+                        PET-3
+                      </Box>
+                      <Box>
+                        <span><MdHorizontalSplit color="green" /></span>
+                        &nbsp;
+                        {/* <span>icon</span> */}
+                      </Box>
+                    </Flex>
+                  </Container>
                 </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
-                </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="#fcab00" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-          </Paper>
-          <Paper shadow="xl" p="sm" mr="sm" sx={{width: "25%", minHeight: "356px", background: "rgb(244, 245, 247)"}}>
-            {/* card header */}
-            <Flex justify="space-between" px="xs" shadow="md" mb="md" sx={{background: "rgb(234, 230, 255)", position: "sticky", top: 0, height: 48}}>
-              <Center>
-                <Text size={12} fw={400} transform="uppercase" 
-                  sx={{background: "#dfe1e6", color: "#42526e", lineHeight: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                  Rejected&nbsp;
-                  <span>5</span>
-                </Text>
-              </Center>
-              <Center>
-                {/* <Button size='xs' color="#42526e">...</Button> */}
-                 <Menu shadow="md" width={200}>
-                  <Menu.Target>
-                    <Button px="xs" color="green" variant="gradient" sx={{height: "30px"}}><MdOutlineAutoFixHigh /></Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item icon={<MdEdit />}>Edit</Menu.Item>
-                    <Menu.Item icon={<MdCopyAll />}>Copy</Menu.Item>
-                    <Menu.Item icon={<MdDelete />}>Delete</Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Center>
-            </Flex>
-            {/* actual card */}
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
-                </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="red" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-            <Box component={Link} to={`projects/${projectId}/tasks/${taskId}`} >
-              <Container mb="xs" p="md" sx={{background: "#fff", borderRadius: 3, boxShadow: "rgb(9 30 66 / 25%) 0px 1px 2px 0px"}}>
-                <Flex pb="sm" mb="md" justify="space-between" style={{justifyContent: "space-between"}}>
-                  <Text size={10} color="indigo">finish beta</Text>
-                <MdBlurOn size={16} />
-                </Flex>
-                <Box mb="xs" sx={{display: "flex", alignItems: "center", color: "#DE350B", width: "60px", height: 16, background: "#ffebe6", fontSize: 11, fontWeight: 700}} >
-                  <MdOutlineAccessTime color="red" size={16} style={{marginRight: "-5px"}} />
-                  &nbsp; 26 FEB
-                </Box>
-                <Flex justify="space-between" mt="md">
-                  <Box>
-                    <span><MdMonetizationOn color="green" /></span>
-                    &nbsp;
-                    PET-3
-                  </Box>
-                  <Box>
-                    <span><MdHorizontalSplit color="green" /></span>
-                    &nbsp;
-                    {/* <span>icon</span> */}
-                  </Box>
-                </Flex>
-              </Container>
-            </Box>
-          </Paper>
-        </Container>
-        <CreateTaskModal opened={opened} setOpened={setOpened} />
-      </DragDropContext>
+              </Paper>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Container>
+      <CreateTaskModal opened={opened} setOpened={setOpened} />
       {/* cards container > parent card with label (ongoing, done, rejected, ...etc > actual card/board) */}
     </div>
   )
@@ -360,3 +380,4 @@ export default Board
 // sprints - issues & projcet types - generate reports - text edit for in-place reports (text should be saved into DB every 10s)
 // - reports could be generated automatically every (day, week, month, quarter)
 // - mobile responsive
+// - ability to send emails directly from reports page (with report attached automatically afer clicking)

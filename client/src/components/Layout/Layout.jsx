@@ -1,5 +1,5 @@
 import {Routes, Route, useParams} from 'react-router-dom'
-import { Container, Text } from '@mantine/core'
+import { Container, Flex, Text } from '@mantine/core'
 import Demo from '../test'
 import MainHeader from '../Header/Header'
 
@@ -17,6 +17,9 @@ import ProjectSettings from '../../pages/ProjectSettings/ProjectSettings'
 import './Layout.css'
 import NavTabs from '../NavTabs/NavTabs'
 import DataGrid from '../DataGrid/DataGrid'
+import DrageAndDrop from '../../pages/Board/DrageAndDrop'
+// import {BsWrenchAdjustableCircleFill} from 'react-icons/bs'
+import {GiWrench} from 'react-icons/gi'
 
 function Layout({children}) {
   const {id} = useParams()
@@ -26,7 +29,10 @@ function Layout({children}) {
         {/* <Demo />
         <MainHeader /> */}
         <Container size="md" p="sm" pt="xl">
-          <Text mb="lg" pl="md" color="darkblue">Project Name</Text>
+          <Flex>
+            <GiWrench size={25} color="darkblue" />
+            <Text mb="lg" pl="md" color="darkblue">Project Name</Text>
+          </Flex>
           <NavTabs id={id} />
           {/* {children} */}
           {/* <h2>content</h2> */}
@@ -39,7 +45,7 @@ function Layout({children}) {
             <Route path="/tasks/:id" element={<SingleTask />} />
             {/* actual project routes */}
             <Route path="/projects/:id/summary" element={<Summary />} />
-            <Route path="/projects/:id/board" element={<Board />} />
+            <Route path="/projects/:id/board" element={<DrageAndDrop />} />
             {/* <Route path="/projects/:id/tasks" element={<Tasks />} /> */}
             <Route path="/projects/:id/tasks" element={<DataGrid />} />
             <Route path="/projects/:id/calender" element={<Calender />} />
