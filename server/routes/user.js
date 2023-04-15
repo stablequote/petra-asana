@@ -6,7 +6,7 @@ const {createUser, getUsers, getUser, updateUser, deleteUser} = require('../cont
 router.post('/create', createUser)
 
 // list all users
-router.get('/', getUser)
+router.get('/', getUsers)
 
 // list single user
 router.get('/:id', getUser)

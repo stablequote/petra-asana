@@ -6,7 +6,7 @@ function ProjectSettings() {
     <Container size="md">
       <Title fz={16} color="darkblue">Project Details</Title>
       <TextInput label="Name" placeholder="project name" mb="md" />
-      <TextInput label="Key" placeholder="PET" value="PET-12" mb="sm" />
+      <TextInput label="Key" placeholder="PET" defaultValue="PET" mb="sm" />
       <Textarea label="description" minRows={2} maxRows={4} autosize mb="sm" />
       <Select
         label="project category"

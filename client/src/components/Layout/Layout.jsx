@@ -1,4 +1,4 @@
-import {Routes, Route, useParams} from 'react-router-dom'
+import {Routes, Route, useParams, redirect} from 'react-router-dom'
 import { Container, Flex, Text } from '@mantine/core'
 import Demo from '../test'
 import MainHeader from '../Header/Header'
@@ -24,11 +24,38 @@ import {GiWrench} from 'react-icons/gi'
 function Layout({children}) {
   const {id} = useParams()
 
+  function handleLogin(e) {
+    e.preventDefault()
+    
+    fetch("http://localhost:5000/dashboard", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'email': 'admin2@desv.com',
+        'password': 'dev'
+    } )
+    }).then((res) => {
+      console.log(res)
+      if(res.status === 200) {
+        console.log("redirecting client")
+        redirect("http://localhost:5176/projects/535/tasks")
+        // window.location.replace("/dashboard")
+      }
+    })
+  }
+
   return (
     <div className='layout'>
         {/* <Demo />
         <MainHeader /> */}
         <Container size="md" p="sm" pt="xl">
+        {/* <form>
+          <input type="email" name='email' />
+          <input type="password" name='password' />
+          <button onClick={handleLogin} type="submit">login</button>
+        </form> */}
           <Flex>
             <GiWrench size={25} color="darkblue" />
             <Text mb="lg" pl="md" color="darkblue">Project Name</Text>
@@ -38,7 +65,7 @@ function Layout({children}) {
           {/* <h2>content</h2> */}
           <Routes>
             {/* for quick sidebar navigation */}
-            {/* <Route path="/summary" element={<Summary />} /> */}
+            <Route path="/" element={<Summary />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<SingleProject />} />
             <Route path="/tasks" element={<Tasks />} />

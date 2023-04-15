@@ -10,6 +10,7 @@ const fs = require("fs")
 const projectRouter = require('./routes/project');
 const taskRouter = require('./routes/task');
 const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth');
 
 const PORT = process.env.port || 5000
 const DB_URI = process.env.DB_URI
@@ -73,12 +74,16 @@ const TestTask = mongoose.model("TestTask", SampleTaskSchema)
 const Task = require("./models/tasks");
 const Attachment = require('./models/attachments');
 const bodyParser = require('body-parser');
+const User = require('./models/users');
+const { loginUser } = require('./controllers/AuthController');
 
 
 // db connection
 mongoose.connect(DB_URI).then(() => {
     console.log('Connected to DB!')
 })
+
+mongoose.set('strictQuery', false)
 
 const findIssue= async () => {
     const issues = await Issue.find({})
@@ -186,6 +191,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use('/project', projectRouter)
 app.use('/task', taskRouter)
 app.use('/user', userRouter)
+app.use('/auth', authRouter)
 
 app.use(express.static('uploads'))
 
@@ -234,7 +240,8 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     //     // contentType:req.file.mimetype,
     //     image:new Buffer(encode_img,'base64')
     // };
-    const final_img = req.file.path;
+    console.log(req.image)
+    const final_img = req.image.path;
     Attachment.create(final_img,function(err,result){
         if(err){
             console.log(err);
@@ -252,6 +259,12 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     
 // }))
 
+
+
+// authentication
+app.post("/dashboard", loginUser, (req, res) => {
+    res.redirect("/secret")
+})
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)

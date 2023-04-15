@@ -4,46 +4,46 @@ const { Schema } = mongoose;
 const userSchema = Schema({
     id:{
         type: String,
-        unique: true,
-        required: true,
+        // unique: true,
+        // required: true,
         default: Math.floor(Math.random(5) * 1000)
     },
     firstName: {
         type: String,
-        required: true
+        // required: true
     },
     lastName: {
         type: String,
-        required: true
+        // required: true
     },
     email: {
         type: String,
-        required: true
+        // required: true
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     image: {
         type: String,
     },
     role: {
         type: String,
-        required: true
+        // required: true
     },
     department: {
         type: String,
-        required: true
+        // required: true
     },
     createdAt: {
         type: Date,
         default: Date.now,
-        timestamps: true
+        // timestamps: true
     },
     modifiedAt: {
         type: Date,
         default: Date.now,
-        timestamps: true
+        // timestamps: true
     },
     tasks: {
         type: Schema.Types.ObjectId

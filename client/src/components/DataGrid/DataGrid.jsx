@@ -18,10 +18,12 @@ import { IconTrash, IconEdit } from '@tabler/icons-react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { DatePicker } from '@mantine/dates';
 import axios from 'axios';
-
+import moment from 'moment';
+import CreateTaskModal from '../TaskModal/TaskModal';
 
 const DataGrid = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
   const [tableData, setTableData] = useState(() => []);
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(true);
@@ -56,7 +58,7 @@ const DataGrid = () => {
   const handleDeleteRow = useCallback(
     (row) => {
       if (
-        !confirm(`Are you sure you want to delete ${row.getValue('firstName')}`)
+        !confirm(`Are you sure you want to delete ${row.getValue('_id')}`)
       ) {
         return;
       }
@@ -231,12 +233,14 @@ const DataGrid = () => {
               padding: '4px',
             })}
           >
-            {cell.getValue()?.toLocaleString?.('en-US', {
+            {/* {cell.getValue()?.toLocaleString?.('en-US', {
               style: 'currency',
               currency: 'USD',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            })}
+            })} */}
+            { moment(cell.getValue()).format("ll")}
+            {/* {moment(cell.getValue()).format("LLLL")} */}
           </Box>
         ),
       },
@@ -295,18 +299,23 @@ const DataGrid = () => {
         renderTopToolbarCustomActions={() => (
           <Button
             color="teal"
-            onClick={() => setCreateModalOpen(true)}
+            onClick={() => setOpened(true)}
             variant="filled"
           >
             Create Task
           </Button>
         )}
       />
-      <CreateNewAccountModal
+      {/* <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
+      /> */}
+      <CreateTaskModal
+      opened={opened}
+      setOpened={setOpened} 
+      onSubmit={handleCreateNewRow}
       />
       </Skeleton>
     </>

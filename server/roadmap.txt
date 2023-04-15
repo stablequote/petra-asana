@@ -104,8 +104,11 @@
 - event info modal (comments, file upload)
 - add event modal
 - dynamic summary (pie chart, statistics)
-- 
 
 *Back-end:
 - file upload
 - commenting
+- new models (attachment, comment)
+- added more fields to tasks schema
+
+and more...

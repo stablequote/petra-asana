@@ -33,7 +33,7 @@ function DragAndDrop() {
   const {projectId, taskId} = useParams();
 
   useEffect(() => {
-      axios.get("http://localhost:5000/task").then((res) => {
+      axios.get("http://localhost:5000/tasks").then((res) => {
       console.log(res.data)
       setTasks(res.data)
       
