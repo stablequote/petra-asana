@@ -24,3 +24,7 @@ a{
 .nav-container a:hover{
   background: #219940;
 }
+
+.react-beautiful-dnd-draggable {
+  transition: transform 0.2s;
+}

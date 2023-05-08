@@ -93,3 +93,22 @@
     - owner/CEO => can view all things employees have done, assign projects/tasks to them.
     - project manager => can view his things, employees, and assign tasks to direct employees in the department
     - employee => can only view his tasks,projects assigned, settings/preferences.
+
+
+*Font-end:
+- Calendar (display event, create event, view event details, organize events drag&drop)
+- Connecting client to back-end
+- Text editor component
+- tasks table (dynamic from DB, improved some functions such as pagination)
+- board drag and drop
+- event info modal (comments, file upload)
+- add event modal
+- dynamic summary (pie chart, statistics)
+
+*Back-end:
+- file upload
+- commenting
+- new models (attachment, comment)
+- added more fields to tasks schema
+
+and more...

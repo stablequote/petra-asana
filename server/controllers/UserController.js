@@ -27,7 +27,7 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id } = req.params;
-    const user = await User.findByIdAndUpdate(id)
+    const user = await User.findByIdAndUpdate(id, {})
     res.send(user);
 }
 

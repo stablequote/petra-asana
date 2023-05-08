@@ -8,35 +8,33 @@ import Layout from './components/Layout/Layout';
 import Projects from './components/Projects/Projects';
 import { AppShell, Button, Drawer, Loader } from '@mantine/core';
 import Login from './pages/Login/Login';
-import AppWrapper from './AppWrapper';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import Register from './pages/Register/Register';
 // import Navbar from './components/Navbar/Navbar'
 // import './App.css'
 
-function App() {
+function AppWrapper() {
   const [opened, setOpened] = useState(true);
 
-
   return (
-    <div className="App">
-      <div className="wrapper">
-      {/* <Routes>
-          <Route path='/dashboard/*' element={<AppWrapper />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='register' element={<Register />} />
-          <Route path='forgot-password' element={<ForgotPassword />} />
-      </Routes> */}
-        <AppWrapper />
-      </div>
-    </div>
+
+    <AppShell sx={{background: "rgb(234, 230, 255)"}}>
+        {/* <Button onClick={() => setOpened(true)}>Open Drawer</Button>
+        <Button onClick={() => setOpened(false)}>Close Drawer</Button> */}
+        <Drawer opened={opened} onClose={() => setOpened(false)} withOverlay={false} size="xs"
+        transition="slide-right"
+        transitionDuration={50}
+        transitionTimingFunction="ease"
+        >
+        <Demo  />
+        </Drawer>
+        <Layout />
+    </AppShell>
   )
 }
 
-export default App
+export default AppWrapper
 
 
-{/* <div className="App">
+{/* <div className="AppWrapper">
 <Routes>
   <Route path="/test" element={<Demo />} />
 </Routes> */}

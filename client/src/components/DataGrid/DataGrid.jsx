@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { MantineReactTable } from 'mantine-react-table';
 import {
   Box,
@@ -14,14 +14,28 @@ import {
   Skeleton,
 } from '@mantine/core';
 import { IconTrash, IconEdit } from '@tabler/icons-react';
-import { data, states } from '../../utils/makeData';
+// import { data, datas, states } from '../../utils/makeData';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { DatePicker } from '@mantine/dates';
+import axios from 'axios';
+import moment from 'moment';
+import CreateTaskModal from '../TaskModal/TaskModal';
 
 const DataGrid = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => data);
+  const [opened, setOpened] = useState(false);
+  const [tableData, setTableData] = useState(() => []);
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const baseUri = 'http://localhost:5000/task/'
+    const req = axios.get(baseUri).then((res) => {
+      console.log(res.data)
+      setLoading(!loading)
+      setTableData(res.data)
+    })
+  }, [])
 
   const handleCreateNewRow = (values) => {
     tableData.push(values);
@@ -44,7 +58,7 @@ const DataGrid = () => {
   const handleDeleteRow = useCallback(
     (row) => {
       if (
-        !confirm(`Are you sure you want to delete ${row.getValue('firstName')}`)
+        !confirm(`Are you sure you want to delete ${row.getValue('_id')}`)
       ) {
         return;
       }
@@ -96,41 +110,106 @@ const DataGrid = () => {
         size: 80,
       },
       {
-        accessorKey: 'firstName',
-        header: 'First Name',
+        accessorKey: 'title',
+        header: 'Title',
         size: 140,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
         }),
       },
       {
-        accessorKey: 'lastName',
-        header: 'Last Name',
+        accessorKey: 'description',
+        header: 'description',
         size: 140,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
         }),
       },
       {
-        accessorKey: 'email',
-        header: 'Email',
+        accessorKey: 'status',
+        header: 'Status',
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
           type: 'email',
         }),
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == "pending"
+              ? theme.colors.gray[6]
+              : cell.getValue() == "done"
+              ? theme.colors.green[9]
+              : theme.colors.blue[8],
+
+              borderRadius: '4px',
+              color: '#fff',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </Box>
+        ),
       },
       {
-        accessorKey: 'age',
-        header: 'Age',
+        accessorKey: 'priority',
+        header: 'Priority',
         size: 80,
         mantineEditTextInputProps: ({ cell }) => ({
           ...getCommonEditTextInputProps(cell),
-          type: 'number',
+        }),
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == "high"
+              ? theme.colors.red[6]
+              : cell.getValue() == "low"
+              ? theme.colors.blue[4]
+              : theme.colors.yellow[8],
+
+              borderRadius: '4px',
+              color: '#fff',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </Box>
+        ),
+      },
+      {
+        accessorKey: 'assignee',
+        header: 'Assignee',
+        size: 140,
+        mantineEditTextInputProps: ({ cell }) => ({
+          ...getCommonEditTextInputProps(cell),
         }),
       },
       {
-        accessorKey: 'state',
-        header: 'State',
+        accessorKey: 'assignedTo',
+        header: 'Assigned To',
+        size: 140,
+        mantineEditTextInputProps: ({ cell }) => ({
+          ...getCommonEditTextInputProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'createdAt',
+        header: 'Due Date',
         // mantineEditTextInputProps: {
         //   select: true, //change to select for a dropdown
         //   children: states.map((state) => (
@@ -139,6 +218,31 @@ const DataGrid = () => {
         //     </Menu.Item>
         //   )),
         // },
+         //custom conditional format and styling
+         Cell: ({ cell }) => (
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() == Date.now()
+              ? theme.colors.red[6]
+              : theme.colors.white,
+
+              borderRadius: '4px',
+              color: '#333',
+              maxWidth: '9ch',
+              padding: '4px',
+            })}
+          >
+            {/* {cell.getValue()?.toLocaleString?.('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })} */}
+            { moment(cell.getValue()).format("ll")}
+            {/* {moment(cell.getValue()).format("LLLL")} */}
+          </Box>
+        ),
       },
     ],
     [getCommonEditTextInputProps],
@@ -157,10 +261,25 @@ const DataGrid = () => {
           },
         }}
         columns={columns}
+        state={
+          {showSkeletons: false}
+
+        }
         data={tableData}
         editingMode="modal" //default
         enableColumnOrdering
+        initialState={{ density: 'xs',pagination: {pageSize: 5} }}
         enableEditing
+        withBorder
+        // mantineTableBodyCellProps={{
+        //   sx: {
+        //     backgroundColor: 'red',
+        //     ':hover': {
+        //       background: "green"
+        //     }
+
+        //   }
+        // }}
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
@@ -180,18 +299,24 @@ const DataGrid = () => {
         renderTopToolbarCustomActions={() => (
           <Button
             color="teal"
-            onClick={() => setCreateModalOpen(true)}
+            onClick={() => setOpened(true)}
             variant="filled"
           >
-            Create New Account
+            Create Task
           </Button>
         )}
       />
-      <CreateNewAccountModal
+      {/* <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
+      /> */}
+      <CreateTaskModal
+      opened={opened}
+      setOpened={setOpened} 
+      onSubmit={handleCreateNewRow}
+      defaultValue={Date.now()}
       />
       </Skeleton>
     </>
@@ -215,7 +340,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog opened={open}>
-      <Title ta="center">Create New Account</Title>
+      <Title ta="center">Create Task</Title>
       <form onSubmit={(e) => e.preventDefault()}>
         <Stack
           sx={{
@@ -233,6 +358,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               }
             />
           ))}
+          <DatePicker label="pick date" placeholder="select date" onChange={(e) =>
+                setValues({ ...values, [e.target.name]: e.target.value })
+              } />
         </Stack>
       </form>
       <Flex
@@ -247,7 +375,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button color="teal" onClick={handleSubmit} variant="filled">
-          Create New Account
+          Create Task
         </Button>
       </Flex>
     </Dialog>
