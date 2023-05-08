@@ -316,6 +316,7 @@ const DataGrid = () => {
       opened={opened}
       setOpened={setOpened} 
       onSubmit={handleCreateNewRow}
+      defaultValue={Date.now()}
       />
       </Skeleton>
     </>

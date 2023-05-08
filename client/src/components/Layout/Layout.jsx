@@ -20,6 +20,7 @@ import DataGrid from '../DataGrid/DataGrid'
 import DrageAndDrop from '../../pages/Board/DrageAndDrop'
 // import {BsWrenchAdjustableCircleFill} from 'react-icons/bs'
 import {GiWrench} from 'react-icons/gi'
+import ProjectsList from '../../pages/ProjectsList/ProjectsList'
 
 function Layout({children}) {
   const {id} = useParams()
@@ -66,7 +67,7 @@ function Layout({children}) {
           <Routes>
             {/* for quick sidebar navigation */}
             <Route path="/" element={<Summary />} />
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects" element={<ProjectsList />} />
             <Route path="/projects/:id" element={<SingleProject />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/tasks/:id" element={<SingleTask />} />

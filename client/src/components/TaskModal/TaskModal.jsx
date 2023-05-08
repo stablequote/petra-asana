@@ -5,7 +5,7 @@ import axios from 'axios';
 import { DatePicker } from '@mantine/dates';
 import moment from 'moment';
 
-function CreateTaskModal({opened, setOpened, dateStr}) {
+function CreateTaskModal({opened, setOpened, dateStr, title}) {
 
   const [stringValue, setStringValue] = useInputState('');
   const [type, setType] = useState('')
@@ -88,7 +88,7 @@ function CreateTaskModal({opened, setOpened, dateStr}) {
     opened={opened} 
     onClose={() => setOpened(false)}
     size="xl" 
-    title="create task"
+    title={title}
     overlayOpacity={0.55}
     overlayBlur={4}
     transitionDuration={0}
@@ -168,7 +168,7 @@ function CreateTaskModal({opened, setOpened, dateStr}) {
         defaultValue={new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})} 
         // placeholder={new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})} 
         // placeholder={moment(dateStr).format('DD MMM YYYY')}
-        placeholder={dateStr}
+        placeholder={dateStr || moment(Date.now()).format('lll')}
         />
         <Switch
         mt={33}
